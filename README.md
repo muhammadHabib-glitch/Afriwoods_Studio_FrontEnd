@@ -1,36 +1,72 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Afriwood Studios — Frontend
 
-## Getting Started
+Official marketing website for Afriwood Studios (Africa's first superhero universe).
 
-First, run the development server:
+Built with **Next.js 16**, **React 19**, **TypeScript**, and **Tailwind CSS 4**.
+
+## Requirements
+
+- Node.js 20+
+- npm 10+
+
+## Setup
 
 ```bash
+npm install
+cp .env.example .env.local   # optional — for future API integration
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Scripts
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+| Command | Description |
+|---------|-------------|
+| `npm run dev` | Development server |
+| `npm run build` | Production build |
+| `npm run start` | Run production build |
+| `npm run lint` | ESLint |
+| `npm run typecheck` | TypeScript check |
 
-## Learn More
+## Project structure
 
-To learn more about Next.js, take a look at the following resources:
+```
+src/
+├── app/              Routes (App Router)
+├── components/
+│   ├── layout/       Navbar, Footer, shared layout
+│   ├── sections/     Homepage sections
+│   ├── movies/       Movies page
+│   └── universe/     Universe page
+└── lib/              Constants and utilities
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+public/assets/        Brand images (heroes, comics, backgrounds, UI)
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Pages (Milestone 1)
 
-## Deploy on Vercel
+| Route | Status |
+|-------|--------|
+| `/` | Complete — responsive homepage |
+| `/universe` | Complete |
+| `/movies` | Complete |
+| `/about` | Complete |
+| `/store`, `/ngo`, `/academy`, etc. | Under development (placeholder) |
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Environment variables
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+See `.env.example`. No secrets are required for the static frontend. When the backend is connected, set `NEXT_PUBLIC_API_URL`.
+
+## Deployment
+
+```bash
+npm run build
+npm run start
+```
+
+Compatible with Vercel, Netlify, or any Node.js host.
+
+## License
+
+Proprietary — Afriwood Studios.
