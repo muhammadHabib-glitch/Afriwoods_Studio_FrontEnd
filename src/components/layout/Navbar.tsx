@@ -5,7 +5,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { Search, ChevronDown, Menu, X } from "lucide-react";
-import { NAV_MAIN, NAV_MORE } from "@/lib/constants";
+import { LOGOS, NAV_MAIN, NAV_MORE } from "@/lib/constants";
 import SearchDialog from "@/components/layout/SearchDialog";
 import { cn } from "@/lib/cn";
 
@@ -16,6 +16,7 @@ type NavbarMenusProps = {
 
 function NavbarMenus({ scrolled, onSearchOpen }: NavbarMenusProps) {
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [mobileMoreOpen, setMobileMoreOpen] = useState(false);
   const [moreOpen, setMoreOpen] = useState(false);
   const pathname = usePathname();
   const moreRef = useRef<HTMLDivElement>(null);
@@ -29,27 +30,42 @@ function NavbarMenus({ scrolled, onSearchOpen }: NavbarMenusProps) {
     };
   }, [mobileOpen]);
 
+  const closeMobileMenu = () => {
+    setMobileOpen(false);
+    setMobileMoreOpen(false);
+  };
+
+  const toggleMobileMenu = () => {
+    setMobileOpen((open) => {
+      if (open) setMobileMoreOpen(false);
+      return !open;
+    });
+  };
+
   useEffect(() => {
     if (!moreOpen) return;
-    const onPointer = (e: MouseEvent) => {
-      if (moreRef.current && !moreRef.current.contains(e.target as Node)) {
-        setMoreOpen(false);
-      }
+    const onPointerDown = (e: PointerEvent) => {
+      if (moreRef.current?.contains(e.target as Node)) return;
+      setMoreOpen(false);
     };
     const onKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") setMoreOpen(false);
     };
-    document.addEventListener("mousedown", onPointer);
+    const frame = window.requestAnimationFrame(() => {
+      document.addEventListener("pointerdown", onPointerDown);
+    });
     document.addEventListener("keydown", onKey);
     return () => {
-      document.removeEventListener("mousedown", onPointer);
+      window.cancelAnimationFrame(frame);
+      document.removeEventListener("pointerdown", onPointerDown);
       document.removeEventListener("keydown", onKey);
     };
   }, [moreOpen]);
 
   const isActive = (href: string) => {
     if (href === "/") return pathname === "/";
-    return pathname === href || pathname.startsWith(`${href}/`) || pathname.startsWith(`${href}?`);
+    const base = href.split("?")[0];
+    return pathname === base || pathname.startsWith(`${base}/`);
   };
 
   const navLinkClass = (href: string) => cn("nav-link", isActive(href) && "nav-link--active");
@@ -84,17 +100,15 @@ function NavbarMenus({ scrolled, onSearchOpen }: NavbarMenusProps) {
               </button>
             </div>
 
-            <Link href="/" className="justify-self-center" aria-label="Afriwood Studios home">
-              <div className="nav-logo-pill">
-                <Image
-                  src="/assets/ui/afriwood-comics-logo.png"
-                  alt="Afriwood"
-                  width={72}
-                  height={28}
-                  className="h-6 w-auto object-contain lg:h-7"
-                  priority
-                />
-              </div>
+            <Link href="/" className="nav-logo-link justify-self-center" aria-label="Afriwood Studios home">
+              <Image
+                src={LOGOS.studios}
+                alt="Afriwood Studios"
+                width={160}
+                height={48}
+                className="nav-logo-image"
+                priority
+              />
             </Link>
 
             <div className="nav-actions">
@@ -104,7 +118,7 @@ function NavbarMenus({ scrolled, onSearchOpen }: NavbarMenusProps) {
               <button
                 type="button"
                 className="nav-menu-toggle nav-utility-link"
-                onClick={() => setMobileOpen((v) => !v)}
+                onClick={toggleMobileMenu}
                 aria-expanded={mobileOpen}
                 aria-controls="nav-mobile-menu"
                 aria-label={mobileOpen ? "Close menu" : "Open menu"}
@@ -125,22 +139,28 @@ function NavbarMenus({ scrolled, onSearchOpen }: NavbarMenusProps) {
               </Link>
             ))}
 
-            <div className="relative shrink-0" ref={moreRef}>
+            <div className="nav-more" ref={moreRef}>
               <button
                 type="button"
+                id="nav-more-trigger"
                 className={cn("nav-link inline-flex items-center gap-1", moreOpen && "nav-link--active")}
-                onClick={() => setMoreOpen((v) => !v)}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setMoreOpen((open) => !open);
+                }}
                 aria-expanded={moreOpen}
-                aria-haspopup="true"
+                aria-haspopup="menu"
+                aria-controls="nav-more-menu"
               >
                 More
                 <ChevronDown
                   size={13}
                   className={cn("nav-more-chevron", moreOpen && "nav-more-chevron--open")}
+                  aria-hidden
                 />
               </button>
-              {moreOpen && (
-                <div className="nav-dropdown" role="menu">
+              {moreOpen ? (
+                <div id="nav-more-menu" className="nav-dropdown" role="menu" aria-labelledby="nav-more-trigger">
                   {NAV_MORE.map((l) => (
                     <Link
                       key={l.href + l.label}
@@ -153,7 +173,7 @@ function NavbarMenus({ scrolled, onSearchOpen }: NavbarMenusProps) {
                     </Link>
                   ))}
                 </div>
-              )}
+              ) : null}
             </div>
           </nav>
         </div>
@@ -167,25 +187,57 @@ function NavbarMenus({ scrolled, onSearchOpen }: NavbarMenusProps) {
         )}
       >
         <div className="nav-mobile-panel site-shell max-h-[inherit] overflow-y-auto overscroll-contain py-4">
-          {[...NAV_MAIN, ...NAV_MORE].map((link) => (
+          {NAV_MAIN.map((link) => (
             <Link
-              key={link.href + link.label}
+              key={link.href}
               href={link.href}
               className={cn("nav-mobile-link", isActive(link.href) && "nav-mobile-link--active")}
-              onClick={() => setMobileOpen(false)}
+              onClick={closeMobileMenu}
             >
               {link.label}
             </Link>
           ))}
+
+          <button
+            type="button"
+            id="nav-mobile-more-trigger"
+            className={cn("nav-mobile-more-toggle", mobileMoreOpen && "nav-mobile-more-toggle--open")}
+            onClick={() => setMobileMoreOpen((v) => !v)}
+            aria-expanded={mobileMoreOpen}
+            aria-controls="nav-mobile-more-menu"
+          >
+            More
+            <ChevronDown
+              size={14}
+              className={cn("nav-more-chevron", mobileMoreOpen && "nav-more-chevron--open")}
+              aria-hidden
+            />
+          </button>
+
+          {mobileMoreOpen ? (
+            <div id="nav-mobile-more-menu" className="nav-mobile-submenu" role="menu" aria-labelledby="nav-mobile-more-trigger">
+              {NAV_MORE.map((link) => (
+                <Link
+                  key={link.href + link.label}
+                  href={link.href}
+                  className={cn("nav-mobile-link nav-mobile-link--sub", isActive(link.href) && "nav-mobile-link--active")}
+                  onClick={closeMobileMenu}
+                >
+                  {link.label}
+                </Link>
+              ))}
+            </div>
+          ) : null}
+
           <div className="mt-3 grid grid-cols-2 gap-3 pt-1">
             <Link
               href="/signup"
               className="inline-flex items-center justify-center rounded-full border border-white/20 py-2.5 text-center font-sora text-sm text-white transition-colors hover:text-[var(--color-accent)]"
-              onClick={() => setMobileOpen(false)}
+              onClick={closeMobileMenu}
             >
               Sign up
             </Link>
-            <Link href="/store" className="nav-cta nav-cta--drawer" onClick={() => setMobileOpen(false)}>
+            <Link href="/store" className="nav-cta nav-cta--drawer" onClick={closeMobileMenu}>
               Shop Now
             </Link>
           </div>

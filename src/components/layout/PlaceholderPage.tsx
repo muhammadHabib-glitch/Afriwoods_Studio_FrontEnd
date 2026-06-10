@@ -20,7 +20,7 @@ export default function PlaceholderPage({
   return (
     <>
       <PageHero eyebrow={eyebrow} title={title} description={description}>
-        <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
+        <div className="page-hero__actions">
           <PrimaryButton href={primaryCta.href} label={primaryCta.label} />
           {secondaryCta ? (
             <Link href={secondaryCta.href} className="universe-cta-btn universe-cta-btn--secondary">
@@ -30,7 +30,7 @@ export default function PlaceholderPage({
         </div>
       </PageHero>
 
-      <section className="about-section about-section--dark pb-24">
+      <section className="about-section about-section--dark">
         <SiteContainer size="narrow">
           <p className="text-center text-sm leading-relaxed text-white/50">
             This page is under active development. In the meantime, explore the{" "}

@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { Suspense } from "react";
 import { ArrowRight } from "lucide-react";
 import { SiteContainer } from "@/components/layout/SectionContainer";
 import SectionTitle from "@/components/layout/SectionTitle";
@@ -35,16 +34,14 @@ export default function UniversePage() {
           <SectionTitle id="universe-characters-heading" align="center">
             Characters
           </SectionTitle>
-          <Suspense fallback={<p className="py-8 text-center text-sm text-white/40">Loading characters…</p>}>
-            <UniverseCharacterGrid />
-          </Suspense>
+          <UniverseCharacterGrid />
         </SiteContainer>
       </section>
 
       <section className="universe-section universe-section--muted" aria-labelledby="universe-stories-heading">
         <SiteContainer>
           <h2 id="universe-stories-heading" className="universe-section-heading">
-            Story Arcs
+            Comic Story Arcs
           </h2>
           <div className="universe-timeline">
             <div className="universe-timeline__line" aria-hidden />

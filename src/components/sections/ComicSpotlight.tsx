@@ -20,8 +20,8 @@ export default function ComicSpotlight() {
               src="/assets/comics/comic-1.png"
               alt=""
               fill
-              className="object-cover"
-              sizes="(max-width: 767px) min(100vw, 360px), 360px"
+              className="featured-comic-media__image"
+              sizes="(max-width: 767px) 100vw, 520px"
             />
             <span className="featured-comic-media__overlay">
               <span className="featured-comic-play" aria-hidden>

@@ -8,7 +8,7 @@ import {
   FaXTwitter,
   FaDiscord,
 } from "react-icons/fa6";
-import { FOOTER_POLICY_LINKS, FOOTER_QUICK_LINKS, FOOTER_SOCIALS } from "@/lib/constants";
+import { FOOTER_POLICY_LINKS, FOOTER_QUICK_LINKS, FOOTER_SOCIALS, LOGOS } from "@/lib/constants";
 
 const socialIcons = {
   youtube: FaYoutube,
@@ -22,22 +22,18 @@ const socialIcons = {
 export default function Footer() {
   return (
     <footer className="site-footer">
-      <div className="site-shell">
-        <div className="site-footer__card">
-          <div className="footer-grid">
+      <div className="site-shell site-footer__inner">
+        <div className="footer-grid">
             <div className="footer-brand">
-              <Link href="/" className="footer-brand__pill" aria-label="Afriwood home">
-                <span className="footer-brand__pill-text">AFRIWOOD</span>
-              </Link>
-              <div className="footer-brand__logo">
+              <Link href="/" className="footer-brand__logo-link" aria-label="Afriwood Studios home">
                 <Image
-                  src="/assets/ui/afriwood-comics-logo.png"
-                  alt="Afriwood Comics"
-                  fill
-                  className="object-contain object-left"
-                  sizes="70px"
+                  src={LOGOS.studios}
+                  alt="Afriwood Studios"
+                  width={180}
+                  height={54}
+                  className="footer-brand__logo-image"
                 />
-              </div>
+              </Link>
             </div>
 
             <div>
@@ -85,7 +81,9 @@ export default function Footer() {
           </div>
 
           <div className="site-footer__bar">
-            <p className="site-footer__bar-text">&copy; {new Date().getFullYear()} Afriwood Studios. All rights reserved.</p>
+            <p className="site-footer__bar-text">
+              &copy; {new Date().getFullYear()} Afriwood Studios. All rights reserved.
+            </p>
             <p className="site-footer__bar-secure">
               <svg className="site-footer__lock-icon" fill="currentColor" viewBox="0 0 20 20" aria-hidden>
                 <path
@@ -96,7 +94,6 @@ export default function Footer() {
               </svg>
               Secured with SSL
             </p>
-          </div>
         </div>
       </div>
     </footer>

@@ -1,3 +1,8 @@
+export const LOGOS = {
+  studios: '/assets/logos/afriwood-studios-logo.png',
+  shop: '/assets/logos/afriwood-shop-logo.png',
+} as const;
+
 export const SITE_NAME = 'Afriwood Studios';
 export const SITE_TAGLINE = "Africa's First Superhero Universe";
 export const SITE_DESCRIPTION =

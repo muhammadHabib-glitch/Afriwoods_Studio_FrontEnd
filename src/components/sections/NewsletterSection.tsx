@@ -38,37 +38,43 @@ export default function NewsletterSection() {
           <h2 className="newsletter-heading">Join the Afriwood Family Worldwide.</h2>
           <p className="newsletter-subtitle">Be part of the movement — get our latest updates.</p>
 
-          <label className="newsletter-consent">
-            <input
-              type="checkbox"
-              checked={agreed}
-              onChange={(e) => setAgreed(e.target.checked)}
-            />
-            <span>I agree to receive email updates on all Afriwood products.</span>
-          </label>
+          <div className="newsletter-actions">
+            <div className="newsletter-compliance">
+              <label className="newsletter-consent">
+                <input
+                  type="checkbox"
+                  checked={agreed}
+                  onChange={(e) => setAgreed(e.target.checked)}
+                  className="newsletter-consent__checkbox"
+                />
+                <span className="newsletter-consent__text">
+                  I agree to receive email updates on all Afriwood products.
+                </span>
+              </label>
+              <p className="newsletter-legal">
+                By clicking &quot;submit&quot; and sharing your email, you agree to our Terms of Service and
+                Privacy Policy.
+              </p>
+            </div>
 
-          <p className="newsletter-legal">
-            By clicking &quot;submit&quot; and sharing your email, you agree to our Terms of Service and
-            Privacy Policy.
-          </p>
-
-          <form onSubmit={handleSubmit} className="newsletter-form">
-            <input
-              type="email"
-              placeholder="Enter Email Address"
-              value={email}
-              required
-              onChange={(e) => {
-                setEmail(e.target.value);
-                if (status !== "idle") setStatus("idle");
-              }}
-              className="newsletter-input"
-              aria-label="Email address"
-            />
-            <button type="submit" className="newsletter-submit">
-              Submit
-            </button>
-          </form>
+            <form onSubmit={handleSubmit} className="newsletter-form">
+              <input
+                type="email"
+                placeholder="Enter Email Address"
+                value={email}
+                required
+                onChange={(e) => {
+                  setEmail(e.target.value);
+                  if (status !== "idle") setStatus("idle");
+                }}
+                className="newsletter-input"
+                aria-label="Email address"
+              />
+              <button type="submit" className="newsletter-submit">
+                Submit
+              </button>
+            </form>
+          </div>
 
           {status === "success" ? (
             <p className="newsletter-message newsletter-message--success" role="status">

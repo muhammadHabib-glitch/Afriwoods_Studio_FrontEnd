@@ -32,7 +32,16 @@ const values = [
 export default function AboutPage() {
   return (
     <div className="page-offset">
-      <section className="about-page-hero" aria-labelledby="about-page-title">
+      <section className="about-page-hero about-page-hero--visual" aria-labelledby="about-page-title">
+        <Image
+          src="/assets/heroes/home-hero-figma.png"
+          alt=""
+          fill
+          className="about-page-hero__image"
+          sizes="100vw"
+          priority
+          aria-hidden
+        />
         <div className="about-page-hero__glow" aria-hidden />
         <SiteContainer size="narrow" className="about-page-hero__inner">
           <span className="universe-eyebrow">Our Story</span>
@@ -67,8 +76,14 @@ export default function AboutPage() {
                 Based in Newark, NJ, with roots deep in Africa, Afriwood Studios is building something generational.
               </p>
             </div>
-            <div className="about-media-placeholder" aria-hidden>
-              <span className="about-media-placeholder__label">Studio photo coming soon</span>
+            <div className="about-story-media">
+              <Image
+                src="/assets/backgrounds/bg-5.png"
+                alt="Afriwood Studios team and creative workspace"
+                fill
+                className="about-story-media__image"
+                sizes="(max-width: 1023px) 100vw, 540px"
+              />
             </div>
           </div>
         </SiteContainer>

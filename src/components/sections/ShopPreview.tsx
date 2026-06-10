@@ -1,14 +1,21 @@
 import Link from "next/link";
 import Image from "next/image";
-import { Heart } from "lucide-react";
+import {
+  BookOpen,
+  Footprints,
+  Heart,
+  Image as ImageIcon,
+  Shirt,
+  type LucideIcon,
+} from "lucide-react";
+import { LOGOS } from "@/lib/constants";
 import { SiteContainer } from "@/components/layout/SectionContainer";
-import SectionTitle from "@/components/layout/SectionTitle";
 
 type Product = {
   name: string;
   origPrice: string;
   price: string;
-  img: string;
+  icon: LucideIcon;
   badge?: string;
   rating?: number;
 };
@@ -18,7 +25,7 @@ const products: Product[] = [
     name: "Shutter-Bird: Issue #1",
     origPrice: "$9.99",
     price: "$7.99",
-    img: "/assets/comics/comic-1.png",
+    icon: BookOpen,
     badge: "New",
     rating: 5,
   },
@@ -26,7 +33,7 @@ const products: Product[] = [
     name: "Afriwood Hero Hoodie",
     origPrice: "$39.99",
     price: "$35.99",
-    img: "/assets/products/product-1.png",
+    icon: Shirt,
     badge: "New",
     rating: 5,
   },
@@ -34,7 +41,7 @@ const products: Product[] = [
     name: "Zazuu Kicks",
     origPrice: "$39.99",
     price: "$35.99",
-    img: "/assets/products/product-2.png",
+    icon: Footprints,
     badge: "New",
     rating: 5,
   },
@@ -42,7 +49,7 @@ const products: Product[] = [
     name: "Afriwood Universe Poster",
     origPrice: "$39.99",
     price: "$35.99",
-    img: "/assets/products/product-3.png",
+    icon: ImageIcon,
     badge: "New",
     rating: 5,
   },
@@ -67,20 +74,18 @@ function ProductRating({ count = 5 }: { count?: number }) {
 }
 
 function ShopCard({ product }: { product: Product }) {
+  const Icon = product.icon;
+
   return (
     <Link href="/store" className="shop-card group">
       <div className="shop-card__media">
         <span className="shop-card__wishlist" aria-hidden>
-          <Heart size={16} />
+          <Heart size={15} fill="currentColor" strokeWidth={0} />
         </span>
         {product.badge ? <span className="shop-card__badge">{product.badge}</span> : null}
-        <Image
-          src={product.img}
-          alt={product.name}
-          fill
-          className="shop-card__image"
-          sizes="(max-width: 1023px) 45vw, 260px"
-        />
+        <div className="shop-card__icon-wrap" aria-hidden>
+          <Icon className="shop-card__icon" strokeWidth={1.15} />
+        </div>
       </div>
       <div className="shop-card__body">
         <h3 className="shop-card__title">{product.name}</h3>
@@ -96,24 +101,41 @@ function ShopCard({ product }: { product: Product }) {
 
 export default function ShopPreview() {
   return (
-    <section className="shop-section" aria-label="Afriwood Official Shop">
+    <section className="shop-section" aria-labelledby="shop-section-title">
       <SiteContainer>
-        <SectionTitle subtitle="Gear up with official comics, merch, and collectibles.">
-          Afriwood Official Shop
-        </SectionTitle>
+        <div className="shop-panel">
+          <header className="shop-panel__header">
+            <div className="shop-panel__brand">
+              <Image
+                src={LOGOS.shop}
+                alt="Afriwood Shop"
+                width={320}
+                height={175}
+                className="shop-panel__logo"
+                priority
+              />
+              <h2 id="shop-section-title" className="shop-panel__title">
+                Afriwood Official Shop
+              </h2>
+            </div>
+            <p className="shop-panel__description">
+              Gear up with official comics, merch, and collectibles from the Afriwood universe.
+            </p>
+          </header>
 
-        <ul className="shop-grid list-none">
-          {products.map((product) => (
-            <li key={product.name} className="min-w-0">
-              <ShopCard product={product} />
-            </li>
-          ))}
-        </ul>
+          <ul className="shop-grid list-none">
+            {products.map((product) => (
+              <li key={product.name} className="shop-grid__item">
+                <ShopCard product={product} />
+              </li>
+            ))}
+          </ul>
 
-        <div className="shop-cta-wrap">
-          <Link href="/store" className="shop-cta">
-            Visit Shop
-          </Link>
+          <div className="shop-panel__cta">
+            <Link href="/store" className="shop-cta">
+              Visit Shop
+            </Link>
+          </div>
         </div>
       </SiteContainer>
     </section>

@@ -27,24 +27,22 @@ const newComics: ComicItem[] = [
 
 function ComicCard({ comic }: { comic: ComicItem }) {
   return (
-    <article className="comics-card group">
-      <div className="comics-card__cover">
+    <article className="comics-showcase-card group">
+      <div className="comics-showcase-card__cover">
         <Image
           src={comic.img}
           alt={comic.title}
           fill
-          className="comics-card__image"
-          sizes="(max-width: 1023px) 45vw, 260px"
+          className="comics-showcase-card__image"
+          sizes="(max-width: 767px) 120px, 180px"
         />
       </div>
-      <div className="comics-card__body">
-        <h3 className="comics-card__title">{comic.title}</h3>
-        <div className="comics-card__meta">
-          <span>{comic.date}</span>
-          <span>{comic.issue}</span>
-        </div>
-        <Link href="/store" className="comics-card__read">
-          Read
+      <div className="comics-showcase-card__body">
+        <p className="comics-showcase-card__issue">{comic.issue}</p>
+        <h3 className="comics-showcase-card__title">{comic.title}</h3>
+        <p className="comics-showcase-card__date">{comic.date}</p>
+        <Link href="/store" className="comics-showcase-card__read">
+          Read Now
         </Link>
       </div>
     </article>
@@ -60,13 +58,10 @@ type ComicBooksBlockProps = {
 
 function ComicBooksBlock({ title, comics, variant, showViewAll }: ComicBooksBlockProps) {
   return (
-    <section
-      className={`comics-section comics-section--${variant}`}
-      aria-label={title}
-    >
+    <section className={`comics-section comics-section--${variant}`} aria-label={title}>
       <SiteContainer>
         <SectionTitle subtitle="Discover the epic phases that define our world.">{title}</SectionTitle>
-        <ul className="comics-grid list-none">
+        <ul className="comics-showcase-list list-none">
           {comics.map((comic, index) => (
             <li key={`${comic.title}-${comic.issue}-${index}`} className="min-w-0">
               <ComicCard comic={comic} />
