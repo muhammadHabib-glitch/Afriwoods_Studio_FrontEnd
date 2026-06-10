@@ -3,7 +3,6 @@ import Image from "next/image";
 import { ArrowRight, Star } from "lucide-react";
 import { HOME_HERO_STRIP } from "@/lib/constants";
 import { SiteContainer } from "@/components/layout/SectionContainer";
-import { cn } from "@/lib/cn";
 
 export default function CharacterStrip() {
   return (
@@ -19,37 +18,29 @@ export default function CharacterStrip() {
             Meet Our Heroes
           </h2>
         </header>
+      </SiteContainer>
 
+      <SiteContainer size="shell">
         <ul className="heroes-showcase">
-          {HOME_HERO_STRIP.map((hero, index) => {
-            const tier = index < 2 ? "lead" : "support";
-            return (
-              <li
-                key={hero.name}
-                className={cn("heroes-showcase__item", `heroes-showcase__item--${tier}`)}
-              >
-                <Link href={`/universe/${hero.slug}`} className="heroes-card">
-                  <Image
-                    src={hero.image}
-                    alt={hero.name}
-                    fill
-                    className="heroes-card__image"
-                    sizes={
-                      tier === "lead"
-                        ? "(max-width: 767px) 100vw, (max-width: 1023px) 50vw, 560px"
-                        : "(max-width: 767px) 50vw, (max-width: 1023px) 33vw, 380px"
-                    }
-                    priority={index < 2}
-                  />
-                  <span className="heroes-card__overlay" aria-hidden />
-                  <span className="heroes-card__meta">
-                    <span className="heroes-card__bar" aria-hidden />
-                    <span className="heroes-card__name">{hero.name}</span>
-                  </span>
-                </Link>
-              </li>
-            );
-          })}
+          {HOME_HERO_STRIP.map((hero, index) => (
+            <li key={hero.slug} className="heroes-showcase__item">
+              <Link href={`/universe/${hero.slug}`} className="heroes-card">
+                <Image
+                  src={hero.image}
+                  alt={hero.name}
+                  fill
+                  className="heroes-card__image"
+                  sizes="(max-width: 767px) 44vw, (max-width: 1023px) 18vw, 260px"
+                  priority={index < 3}
+                />
+                <span className="heroes-card__overlay" aria-hidden />
+                <span className="heroes-card__meta">
+                  <span className="heroes-card__bar" aria-hidden />
+                  <span className="heroes-card__name">{hero.name}</span>
+                </span>
+              </Link>
+            </li>
+          ))}
         </ul>
 
         <div className="heroes-cta">
